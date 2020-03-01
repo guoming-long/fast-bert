@@ -524,7 +524,7 @@ class BertLearner(Learner):
 
         results = {"loss": eval_loss}
         results.update(validation_scores)
-
+        print(results)
         return results
 
     ### Return Predictions ###
