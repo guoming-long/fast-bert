@@ -62,9 +62,8 @@ def f1_micro(y_pred: Tensor, y_true: Tensor):
 
 def f1_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     y_pred = y_pred.sigmoid()
-    y_pred = y_pred.cpu()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_pred = np.argmax(y_pred, axis = 1) 
     F1_by_class_d = {}
     for i in range(len(labels)):
         F1_by_class_d[labels[i]] = f1_score(y_true.round(), y_pred.round(), average = 'micro', labels = [i]) # pos_label = i,
