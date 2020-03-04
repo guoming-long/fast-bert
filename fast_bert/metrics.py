@@ -5,7 +5,7 @@ import pdb
 
 CLASSIFICATION_THRESHOLD: float = 0.5  # Best keep it in [0.0, 1.0] range
     
-labels = ['P1','P2','P3','P4','P5']
+labels_list = ['P1','P2','P3','P4','P5']
 
 # def accuracy(out, labels):
 #     outputs = np.argmax(out, axis=1)
@@ -60,11 +60,14 @@ def f1_micro(y_pred: Tensor, y_true: Tensor):
     y_true = y_true.cpu()
     return f1_score(y_pred, y_true, average='micro')
 
-def f1_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
+def f1_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     y_pred = y_pred.sigmoid()
-    y_pred = (y_pred > 0.5).cpu()
+    y_pred = y_pred.cpu()
     y_true = y_true.cpu()
-    return f1_score(y_pred, y_true, average=None, labels = labels)
+    F1_by_class_d = {}
+    for i in range(len(labels)):
+        F1_by_class_d[labels[i]] = f1_score(y_true, y_pred, average = 'micro', labels = [i]) # pos_label = i,
+    return F1_by_class_d
 
 
 def accuracy(y_pred: Tensor, y_true: Tensor):
