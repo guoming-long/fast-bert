@@ -1,13 +1,43 @@
 import numpy as np
 from torch import Tensor
-from sklearn.metrics import roc_curve, auc, hamming_loss, accuracy_score
+from sklearn.metrics import roc_curve, auc, hamming_loss, accuracy_score, recall_score, precision_score, f1_score
 import pdb
 
 CLASSIFICATION_THRESHOLD: float = 0.5  # Best keep it in [0.0, 1.0] range
+    
+labels = ['P1','P2','P3','P4','P5']
 
 # def accuracy(out, labels):
 #     outputs = np.argmax(out, axis=1)
 #     return np.sum(outputs == labels)
+
+
+def recall_macro(y_pred: Tensor, y_true: Tensor):
+    return recall_score(y_pred, y_true, average='macro')
+
+def recall_micro(y_pred: Tensor, y_true: Tensor):
+    return recall_score(y_pred, y_true, average='micro')
+
+def recall_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
+    return recall_score(y_pred, y_true, average=None, labels)
+
+def precision_macro(y_pred: Tensor, y_true: Tensor):
+    return precision_score(y_pred, y_true, average='macro')
+
+def precision_micro(y_pred: Tensor, y_true: Tensor):
+    return precision_score(y_pred, y_true, average='micro')
+
+def precision_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
+    return precision_score(y_pred, y_true, average=None, labels)
+
+def f1_macro(y_pred: Tensor, y_true: Tensor):
+    return f1_score(y_pred, y_true, average='macro')
+
+def f1_micro(y_pred: Tensor, y_true: Tensor):
+    return f1_score(y_pred, y_true, average='micro')
+
+def f1_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
+    return f1_score(y_pred, y_true, average=None, labels)
 
 
 def accuracy(y_pred: Tensor, y_true: Tensor):
