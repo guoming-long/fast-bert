@@ -67,7 +67,7 @@ def f1_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     y_pred = np.argmax(y_pred, axis = 1) 
     F1_by_class_d = {}
     for i in range(len(labels)):
-        F1_by_class_d[labels[i]] = f1_score(y_true, y_pred, average = 'micro', labels = [i]) # pos_label = i,
+        F1_by_class_d[labels[i]] = f1_score(y_true.round(), y_pred.round(), average = 'micro', labels = [i]) # pos_label = i,
     return F1_by_class_d
 
 
