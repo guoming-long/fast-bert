@@ -1,6 +1,7 @@
 import numpy as np
 from torch import Tensor
-from sklearn.metrics import roc_curve, auc, hamming_loss, accuracy_score, recall_score, precision_score, f1_score
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.metrics import roc_curve, auc, hamming_loss, accuracy_score, recall_score, precision_score, f1_score, roc_auc_score
 import pdb
 
 CLASSIFICATION_THRESHOLD: float = 0.5  # Best keep it in [0.0, 1.0] range
@@ -170,3 +171,18 @@ def Exact_Match_Ratio(
 
 def F1(y_pred: Tensor, y_true: Tensor, threshold: float = CLASSIFICATION_THRESHOLD):
     return fbeta(y_pred, y_true, thresh=threshold, beta=1)
+
+def roc_auc_score_by_class(y_pred:Tensor, y_true:Tensor, labels:list = labels_list):
+    y_pred = np.argmax(y_pred, axis = 1).numpy()
+    y_true = y_true.detach().cpu().numpy()
+    roc_auc_score_d = {}
+    for i in range(len(labels)):
+        lb = LabelBinarizer()
+        y_true_i = y_true.copy()
+        y_true_i[y_true != i] = len(labels) + 1
+        y_true_i = lb.fit_transform(y_true_i)
+        y_pred_i = y_pred.copy()
+        y_pred_i[y_pred != i] = len(labels) + 1
+        y_pred_i = lb.transform(y_pred_i)
+        roc_auc_score_d[labels[i]] = roc_auc_score(y_true_i, y_pred_i, average = 'micro')
+    return roc_auc_score_d
