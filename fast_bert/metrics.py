@@ -149,7 +149,8 @@ def Hamming_loss(
 ):
     if sigmoid:
         y_pred = y_pred.sigmoid()
-    y_pred = (y_pred > thresh).float()
+    y_pred = (y_pred > thresh).cpu()
+    y_true = y_true.cpu()
     return hamming_loss(y_true, y_pred, sample_weight=sample_weight)
 
 
