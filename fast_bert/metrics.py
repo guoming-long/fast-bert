@@ -13,64 +13,57 @@ labels = ['P1','P2','P3','P4','P5']
 
 
 def recall_macro(y_pred: Tensor, y_true: Tensor):
+    y_pred = y_pred.sigmoid()
     y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
     return recall_score(y_pred, y_true, average='macro')
 
 def recall_micro(y_pred: Tensor, y_true: Tensor):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return recall_score(y_pred, y_true, average='micro')
 
 def recall_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return recall_score(y_pred, y_true, average=None, labels = labels)
 
 def precision_macro(y_pred: Tensor, y_true: Tensor):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return precision_score(y_pred, y_true, average='macro')
 
 def precision_micro(y_pred: Tensor, y_true: Tensor):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return precision_score(y_pred, y_true, average='micro')
 
 def precision_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return precision_score(y_pred, y_true, average=None, labels = labels)
 
 def f1_macro(y_pred: Tensor, y_true: Tensor):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return f1_score(y_pred, y_true, average='macro')
 
 def f1_micro(y_pred: Tensor, y_true: Tensor):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return f1_score(y_pred, y_true, average='micro')
 
 def f1_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
-    y_pred = y_pred.cpu()
-    y_pred = (y_pred > 0.5).float()
+    y_pred = y_pred.sigmoid()
+    y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
-    y_true = y_true.float()
     return f1_score(y_pred, y_true, average=None, labels = labels)
 
 
