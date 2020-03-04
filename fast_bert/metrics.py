@@ -39,13 +39,13 @@ def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
         for j in y_pred:
             if j == i:
                 out_pred.append(1)
-                num1 += num1
+                num1 += 1
             else:
                 out_pred.append(0)
         for j in y_true:
             if j == i:
                 out_true.append(1)
-                num2 += num2
+                num2 += 1
             else:
                 out_true.append(0)
         print(num1,num2)
