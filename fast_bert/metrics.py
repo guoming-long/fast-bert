@@ -30,7 +30,7 @@ def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     print(y_pred)
     y_true = y_true.cpu()
     y_true = np.argmax(y_true, axis=1)
-    d = {}
+    d = []
     for i in range(len(labels)): 
         out_pred = []
         out_true = []
@@ -49,7 +49,7 @@ def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
             else:
                 out_true.append(0)
         print(num1,num2)
-        d[labels[i]] = recall_score(out_pred, out_true, average='micro')
+        d.append(recall_score(out_pred, out_true, average='micro'))
     return d
 
 def recall_micro(y_pred: Tensor, y_true: Tensor):
