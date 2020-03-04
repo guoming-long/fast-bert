@@ -28,6 +28,7 @@ def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     y_pred = y_pred.cpu()
     y_pred = np.argmax(y_pred, axis=1)
     y_pred = encoder.fit_transform(y_pred)
+    print(y_pred)
     y_true = y_true.cpu()
     y_true = np.argmax(y_true, axis=1)
     y_true = encoder.fit_transform(y_true)
