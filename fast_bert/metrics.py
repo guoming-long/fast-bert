@@ -25,12 +25,14 @@ def recall_macro(y_pred: Tensor, y_true: Tensor):
 def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     y_pred = y_pred.cpu()
     y_pred = np.argmax(y_pred, axis=1)
+    print(y_pred)
     y_true = y_true.cpu()
     y_true = np.argmax(y_true, axis=1)
+    print(y_true)
     d = {}
     for i in range(len(labels)):
-        out_pred = y_pred[:,i]
-        out_true = y_true[:,i]
+        out_pred = y_pred[0][:,i]
+        out_true = y_true[0][:,i]
         d[labels[i]] = recall_score(out_pred, out_true, average='micro')
     return d
 
