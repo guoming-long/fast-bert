@@ -16,10 +16,23 @@ labels_list = ['P1','P2','P3','P4','P5']
 def recall_macro(y_pred: Tensor, y_true: Tensor):
     y_pred = y_pred.cpu()
     y_pred = np.argmax(y_pred, axis=1)
+    print(y_pred)
     y_true = y_true.cpu()
-    print(y_true)
     y_true = np.argmax(y_true, axis=1)
+    print(y_true)
     return recall_score(y_pred, y_true, average='macro')
+
+def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
+    y_pred = y_pred.cpu()
+    y_pred = np.argmax(y_pred, axis=1)
+    y_true = y_true.cpu()
+    y_true = np.argmax(y_true, axis=1)
+    d = {}
+    for i in range(len(labels)):
+        out_pred = y_pred[:,i]
+        out_true = y_true[:,i]
+        d[labels[i]] = recall_score(out_pred, out_true, average='micro')
+    return d
 
 def recall_micro(y_pred: Tensor, y_true: Tensor):
     y_pred = y_pred.sigmoid()
@@ -27,7 +40,7 @@ def recall_micro(y_pred: Tensor, y_true: Tensor):
     y_true = y_true.cpu()
     return recall_score(y_pred, y_true, average='micro')
 
-def recall_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
+def recall_multilabel(y_pred: Tensor, y_true: Tensor, labels:list = labels_list):
     y_pred = y_pred.sigmoid()
     y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
