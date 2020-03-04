@@ -36,15 +36,15 @@ def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
         out_true = []
         for j in y_pred:
             if j == i:
-                out_pred = out_pred.append(1)
+                out_pred.append(1)
             else:
-                out_pred = out_pred.append(0)
+                out_pred.append(0)
         print(out_pred)
         for j in y_true:
             if j == i:
-                out_true = out_true.append(1)
+                out_true.append(1)
             else:
-                out_true = out_true.append(0)
+                out_true.append(0)
         d[labels[i]] = recall_score(out_pred, out_true, average='micro')
     return d
 
