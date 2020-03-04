@@ -24,7 +24,7 @@ def recall_micro(y_pred: Tensor, y_true: Tensor):
     y_true = y_true.cpu()
     return recall_score(y_pred, y_true, average='micro')
 
-def recall_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
+def recall_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     y_pred = y_pred.sigmoid()
     y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
@@ -42,7 +42,7 @@ def precision_micro(y_pred: Tensor, y_true: Tensor):
     y_true = y_true.cpu()
     return precision_score(y_pred, y_true, average='micro')
 
-def precision_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels):
+def precision_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
     y_pred = y_pred.sigmoid()
     y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
