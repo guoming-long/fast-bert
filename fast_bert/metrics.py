@@ -173,7 +173,9 @@ def F1(y_pred: Tensor, y_true: Tensor, threshold: float = CLASSIFICATION_THRESHO
     return fbeta(y_pred, y_true, thresh=threshold, beta=1)
 
 def roc_auc_score_by_class(y_pred:Tensor, y_true:Tensor, labels:list = labels_list):
+    y_pred = y_pred.cpu()
     y_pred = np.argmax(y_pred, axis = 1).numpy()
+    y_true = y_true.cpu()
     y_true = y_true.detach().cpu().numpy()
     roc_auc_score_d = {}
     for i in range(len(labels)):
