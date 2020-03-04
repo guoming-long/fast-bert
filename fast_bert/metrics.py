@@ -15,8 +15,16 @@ labels_list = ['P1','P2','P3','P4','P5']
 
 def recall_macro(y_pred: Tensor, y_true: Tensor):
     y_pred = y_pred.sigmoid()
+    print(y_pred)
     y_pred = (y_pred > 0.5).cpu()
+    print(y_pred)
+    print(y_pred[0])
+    print(y_pred[0][0])
+    print(len(y_pred))
+    print(len(y_pred[0]))
+    print(len(y_pred[0][0]))
     y_true = y_true.cpu()
+    print(y_true)
     return recall_score(y_pred, y_true, average='macro')
 
 def recall_micro(y_pred: Tensor, y_true: Tensor):
