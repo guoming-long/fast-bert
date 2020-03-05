@@ -47,7 +47,7 @@ def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
             else:
                 out_true.append(0)
         print(num1,num2)
-        d.append(recall_score(out_pred, out_true, average=None))
+        d.append(recall_score(out_pred, out_true, average='binary'))
     return d
 
 def recall_micro(y_pred: Tensor, y_true: Tensor):
@@ -88,7 +88,7 @@ def precision_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_lis
                 out_true.append(1)
             else:
                 out_true.append(0)
-        d.append(precision_score(out_pred, out_true, average=None))
+        d.append(precision_score(out_pred, out_true, average='binary'))
     return d
 
 def f1_macro(y_pred: Tensor, y_true: Tensor):
@@ -123,7 +123,7 @@ def f1_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
                 out_true.append(1)
             else:
                 out_true.append(0)
-        d.append(f1_score(out_pred, out_true, average=None))
+        d.append(f1_score(out_pred, out_true, average='binary'))
     return d
 
 
