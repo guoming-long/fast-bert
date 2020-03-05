@@ -24,7 +24,7 @@ from pathlib import Path
 
 from torch.optim.lr_scheduler import _LRScheduler, Optimizer
 
-from tensorboardX import SummaryWriter
+# from tensorboardX import SummaryWriter
 
 from transformers import (
     WEIGHTS_NAME,
@@ -293,7 +293,7 @@ class BertLearner(Learner):
         tensorboard_dir.mkdir(exist_ok=True)
 
         # Train the model
-        tb_writer = SummaryWriter(tensorboard_dir)
+#         tb_writer = SummaryWriter(tensorboard_dir)
 
         train_dataloader = self.data.train_dl
         if self.max_steps > 0:
@@ -403,9 +403,9 @@ class BertLearner(Learner):
                             # evaluate model
                             results = self.validate()
                             for key, value in results.items():
-                                tb_writer.add_scalar(
-                                    "eval_{}".format(key), value, global_step
-                                )
+#                                 tb_writer.add_scalar(
+#                                     "eval_{}".format(key), value, global_step
+#                                 )
                                 self.logger.info(
                                     "eval_{} after step {}: {}: ".format(
                                         key, global_step, value
@@ -424,12 +424,12 @@ class BertLearner(Learner):
                                 (tr_loss - logging_loss) / self.logging_steps,
                             )
                         )
-                        tb_writer.add_scalar("lr", scheduler.get_lr()[0], global_step)
-                        tb_writer.add_scalar(
-                            "loss",
-                            (tr_loss - logging_loss) / self.logging_steps,
-                            global_step,
-                        )
+#                         tb_writer.add_scalar("lr", scheduler.get_lr()[0], global_step)
+#                         tb_writer.add_scalar(
+#                             "loss",
+#                             (tr_loss - logging_loss) / self.logging_steps,
+#                             global_step,
+#                         )
 
                         logging_loss = tr_loss
 
@@ -452,7 +452,7 @@ class BertLearner(Learner):
             )
             self.logger.info("\n")
 
-        tb_writer.close()
+#         tb_writer.close()
         return global_step, tr_loss / global_step
 
     ### Evaluate the model
