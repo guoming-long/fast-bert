@@ -1,6 +1,5 @@
 import numpy as np
 from torch import Tensor
-from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import roc_curve, auc, hamming_loss, accuracy_score, recall_score, precision_score, f1_score, roc_auc_score
 import pdb
 
@@ -8,7 +7,6 @@ CLASSIFICATION_THRESHOLD: float = 0.5  # Best keep it in [0.0, 1.0] range
     
 labels_list = ['P1','P2','P3','P4','P5']
 
-encoder=LabelBinarizer()
 
 # def accuracy(out, labels):
 #     outputs = np.argmax(out, axis=1)
@@ -49,7 +47,7 @@ def recall_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
             else:
                 out_true.append(0)
         print(num1,num2)
-        d.append(recall_score(out_pred, out_true, average='micro'))
+        d.append(recall_score(out_pred, out_true, average=None))
     return d
 
 def recall_micro(y_pred: Tensor, y_true: Tensor):
@@ -57,12 +55,6 @@ def recall_micro(y_pred: Tensor, y_true: Tensor):
     y_pred = (y_pred > 0.5).cpu()
     y_true = y_true.cpu()
     return recall_score(y_pred, y_true, average='micro')
-
-def recall_multilabel(y_pred: Tensor, y_true: Tensor, labels:list = labels_list):
-    y_pred = y_pred.sigmoid()
-    y_pred = (y_pred > 0.5).cpu()
-    y_true = y_true.cpu()
-    return recall_score(y_pred, y_true, average=None, labels = labels)
 
 def precision_macro(y_pred: Tensor, y_true: Tensor):
     y_pred = y_pred.sigmoid()
@@ -76,11 +68,28 @@ def precision_micro(y_pred: Tensor, y_true: Tensor):
     y_true = y_true.cpu()
     return precision_score(y_pred, y_true, average='micro')
 
-def precision_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
-    y_pred = y_pred.sigmoid()
-    y_pred = (y_pred > 0.5).cpu()
+def precision_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
+    y_pred = y_pred.cpu()
+    y_pred = np.argmax(y_pred, axis=1)
+    print(y_pred)
     y_true = y_true.cpu()
-    return precision_score(y_pred, y_true, average=None, labels = labels)
+    y_true = np.argmax(y_true, axis=1)
+    d = []
+    for i in range(len(labels)): 
+        out_pred = []
+        out_true = []
+        for j in y_pred:
+            if j == i:
+                out_pred.append(1)
+            else:
+                out_pred.append(0)
+        for j in y_true:
+            if j == i:
+                out_true.append(1)
+            else:
+                out_true.append(0)
+        d.append(precision_score(out_pred, out_true, average=None))
+    return d
 
 def f1_macro(y_pred: Tensor, y_true: Tensor):
     y_pred = y_pred.sigmoid()
@@ -94,14 +103,28 @@ def f1_micro(y_pred: Tensor, y_true: Tensor):
     y_true = y_true.cpu()
     return f1_score(y_pred, y_true, average='micro')
 
-def f1_multilabel(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
-    y_pred = y_pred.sigmoid()
-    y_pred = (y_pred > 0.5).cpu()
+def f1_by_class(y_pred: Tensor, y_true: Tensor, labels: list = labels_list):
+    y_pred = y_pred.cpu()
+    y_pred = np.argmax(y_pred, axis=1)
+    print(y_pred)
     y_true = y_true.cpu()
-    F1_by_class_d = {}
-    for i in range(len(labels)):
-        F1_by_class_d[labels[i]] = f1_score(y_true, y_pred, average = 'micro', labels = [i]) # pos_label = i,
-    return F1_by_class_d
+    y_true = np.argmax(y_true, axis=1)
+    d = []
+    for i in range(len(labels)): 
+        out_pred = []
+        out_true = []
+        for j in y_pred:
+            if j == i:
+                out_pred.append(1)
+            else:
+                out_pred.append(0)
+        for j in y_true:
+            if j == i:
+                out_true.append(1)
+            else:
+                out_true.append(0)
+        d.append(f1_score(out_pred, out_true, average=None))
+    return d
 
 
 def accuracy(y_pred: Tensor, y_true: Tensor):
